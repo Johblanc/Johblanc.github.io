@@ -1,0 +1,496 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Johann Blanc - Dossier de candidature</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <!-- Contenu Personnalisé  -->
+    <div class="Candiature">
+        <pre><code>
+            
+<em class="kw_A">from</em> <em class="kw_B">Tk</em>inter <em class="kw_A">import</em> <em class="kw_B">Tk</em>,NW,Canvas
+<em class="kw_A">from</em> math <em class="kw_A">import</em> sin, cos, radians
+
+<em class="kw_A">class</em> <em class="kw_B">My_Maps</em>(<em class="kw_B">Tk</em>):
+    """Fenetre d'affichage de la carte"""
+
+    <em class="kw_A">def</em> <em class="kw_C">__init__</em>(<em class="kw_B">self</em>):
+        <em class="kw_B">super</em>().<em class="kw_C">__init__</em>()
+        <em class="kw_B">self</em>.geometry("1680x1050")
+        #<em class="kw_B">self</em>.state('zoomed')
+        <em class="kw_B">self</em>.toile = <em class="kw_B">Can_Hexa</em>(<em class="kw_B">self</em>,20,20,30,1,0)
+
+        <em class="kw_B">self</em>.toile.place(anch<em class="kw_A">or</em> = NW,x=0,y=0,relwidth=1,relheight=1)
+        #<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em> = (5,5)
+        #<em class="kw_B">self</em>.bind('&lt;Button&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_le_haut</em>)
+        #<em class="kw_B">self</em>.bind('&lt;ButtonRelease&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_le_haut</em>)
+        <em class="kw_B">self</em>.bind('&lt;KeyPress-Up&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_le_haut</em>)
+        <em class="kw_B">self</em>.bind('&lt;KeyPress-Down&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_le_bas</em>)
+        <em class="kw_B">self</em>.bind('&lt;KeyPress-Right&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_la_droite</em>)
+        <em class="kw_B">self</em>.bind('&lt;KeyPress-Left&gt;', <em class="kw_B">self</em>.<em class="kw_C">vers_la_gauche</em>)
+        <em class="kw_B">self</em>.bind('&lt;Configure&gt;', <em class="kw_B">self</em>.<em class="kw_C">redimmentionner</em>)
+
+        <em class="kw_B">self</em>.toile.<em class="kw_C">dessiner</em>()
+        
+    <em class="kw_A">def</em> <em class="kw_C">vers_le_haut</em>(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em> = (<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[0] + 1 ,<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[1])
+        <em class="kw_B">self</em>.toile.re<em class="kw_C">dessiner</em>()
+        
+    <em class="kw_A">def</em> <em class="kw_C">vers_le_bas</em>(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em> = (<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[0] - 1 ,<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[1])
+        <em class="kw_B">self</em>.toile.re<em class="kw_C">dessiner</em>()
+        
+    <em class="kw_A">def</em> <em class="kw_C">vers_la_droite</em>(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em> = (<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[0] ,<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[1] + 1)
+        <em class="kw_B">self</em>.toile.re<em class="kw_C">dessiner</em>()
+        
+    <em class="kw_A">def</em> <em class="kw_C">vers_la_gauche</em>(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em> = (<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[0] ,<em class="kw_B">self</em>.toile.<em class="kw_C">centre_sur</em>[1] - 1)
+        <em class="kw_B">self</em>.toile.re<em class="kw_C">dessiner</em>()
+
+    <em class="kw_A">def</em> <em class="kw_C">redimmentionner</em>(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.toile.hauteur = <em class="kw_B">event</em>.height
+        <em class="kw_B">self</em>.toile.largeur = <em class="kw_B">event</em>.width
+        <em class="kw_B">self</em>.toile.re<em class="kw_C">dessiner</em>()
+            
+<em class="kw_A">class</em> <em class="kw_B">Can_Hexa</em>(Canvas):
+    """Un Canvas contenant une grille
+    * parent        => Widget qui contient le Canvas
+    * <em class="kw_C">nb_lignes</em>     => Nombre de lignes dans le tableau
+    * <em class="kw_C">nb_colonnes</em>   => Nombre de colonnes dans le tableau
+    * taille        => Dimention en picsel des cases en zoom 1
+    * mode          => format de la grille :
+        * |-> 0 : rectangle horizontale
+        * |-> 1 : rectangle verticale
+        * |-> 2 : rectangle Losange
+        * |-> 3 : triangle supérieur
+        * '-> 4 : triangle inférieur"""
+            
+    <em class="kw_A">def</em> <em class="kw_C">__init__</em>(
+        <em class="kw_B">self</em>,
+        parent,
+        <em class="kw_C">nb_lignes</em> : int = 1,
+        <em class="kw_C">nb_colonnes</em> : int = 1,
+        taille : int = 30,
+        mode : int = 0,
+        angle : int = 0
+    ) -> None :
+        <em class="kw_B">super</em>().<em class="kw_C">__init__</em>(parent)
+        <em class="kw_B">self</em>.parent = parent 
+        <em class="kw_B">self</em>.hauteur = <em class="kw_B">self</em>.winfo_screenheight()
+        <em class="kw_B">self</em>.largeur = <em class="kw_B">self</em>.winfo_screenwidth()
+        <em class="kw_B">self</em>.__taille = taille
+        <em class="kw_B">self</em>.__mode = mode
+        <em class="kw_B">self</em>.__angle = angle
+        <em class="kw_B">self</em>.__<em class="kw_C">centre_sur</em> = (int(<em class="kw_C">nb_lignes</em>/2),int(<em class="kw_C">nb_colonnes</em>/2))
+        <em class="kw_B">self</em>.__<em class="kw_C">nb_lignes</em> = <em class="kw_C">nb_lignes</em> 
+        <em class="kw_B">self</em>.__<em class="kw_C">nb_colonnes</em> = <em class="kw_C">nb_colonnes</em>
+        <em class="kw_B">self</em>.grille = [[<em class="kw_B">Case_Hexa</em>(<em class="kw_B">self</em>,x,y) <em class="kw_A">for</em> y <em class="kw_A">in</em> range(<em class="kw_C">nb_colonnes</em>)] <em class="kw_A">for</em> x <em class="kw_A">in</em> range(<em class="kw_C">nb_lignes</em>)] 
+        <em class="kw_B">self</em>.__clic_d_coords = None 
+        <em class="kw_B">self</em>.__clic_m_ref = None 
+        <em class="kw_B">self</em>.__clic_g_typ = -1
+        <em class="kw_B">self</em>.bind('&lt;Motion&gt;', <em class="kw_B">self</em>.souris_bouge) 
+        <em class="kw_B">self</em>.bind('&lt;MouseWheel&gt;', <em class="kw_B">self</em>.molette_tourne)
+        <em class="kw_B">self</em>.bind('&lt;Button-1&gt;', <em class="kw_B">self</em>.clic_g) 
+        <em class="kw_B">self</em>.bind('&lt;ButtonRelease-1&gt;', <em class="kw_B">self</em>.declic_g)
+        <em class="kw_B">self</em>.bind('&lt;Button-2&gt;', <em class="kw_B">self</em>.clic_m)
+        <em class="kw_B">self</em>.bind('&lt;ButtonRelease-2&gt;', <em class="kw_B">self</em>.declic_m)
+        <em class="kw_B">self</em>.bind('&lt;Button-3&gt;', <em class="kw_B">self</em>.clic_d) 
+        <em class="kw_B">self</em>.bind('&lt;ButtonRelease-3&gt;', <em class="kw_B">self</em>.declic_d) 
+            
+    <em class="kw_B">@property</em> 
+    <em class="kw_A">def</em> <em class="kw_C">nb_lignes</em>(<em class="kw_B">self</em>) -> int : return <em class="kw_B">self</em>.__<em class="kw_C">nb_lignes</em>
+            
+    <em class="kw_B">@<em class="kw_C">nb_lignes</em>.setter</em> 
+    <em class="kw_A">def</em> <em class="kw_C">nb_lignes</em>(<em class="kw_B">self</em>,valeur : int) : <em class="kw_B">self</em>.<em class="kw_C">redimentionner</em>(<em class="kw_C">nb_lignes</em> = valeur) 
+            
+    <em class="kw_B">@property</em> 
+    <em class="kw_A">def</em> <em class="kw_C">nb_colonnes</em>(<em class="kw_B">self</em>) -> int : return <em class="kw_B">self</em>.__<em class="kw_C">nb_colonnes</em> 
+            
+    <em class="kw_B">@<em class="kw_C">nb_colonnes</em>.setter</em>
+    <em class="kw_A">def</em> <em class="kw_C">nb_colonnes</em>(<em class="kw_B">self</em>,valeur : int) : <em class="kw_B">self</em>.<em class="kw_C">redimentionner</em>(<em class="kw_C">nb_colonnes</em> = valeur) 
+            
+    <em class="kw_A">def</em> <em class="kw_C">redimentionner</em>(<em class="kw_B">self</em>, <em class="kw_C">nb_lignes</em> : int = 0, <em class="kw_C">nb_colonnes</em> : int = 0) -> None :  
+        """Permet de redimentionner la grille en conservant les données contenus. 
+        Mettre un 0 ou laisser vide les argument des dimentions que l'on souhaite conserver"""
+        <em class="kw_A">if</em> <em class="kw_C">nb_lignes</em>    == 0 : <em class="kw_C">nb_lignes</em> = <em class="kw_B">self</em>.__<em class="kw_C">nb_lignes</em>
+        <em class="kw_A">else</em>                 : <em class="kw_B">self</em>.__<em class="kw_C">nb_lignes</em> = <em class="kw_C">nb_lignes</em>
+        <em class="kw_A">if</em> <em class="kw_C">nb_colonnes</em>  == 0 : <em class="kw_C">nb_colonnes</em> = <em class="kw_B">self</em>.__<em class="kw_C">nb_colonnes</em>
+        <em class="kw_A">else</em>                 : <em class="kw_B">self</em>.__<em class="kw_C">nb_colonnes</em> = <em class="kw_C">nb_colonnes</em>
+        nouvelle_grille = [ 
+            [   <em class="kw_B">Case_Hexa</em>(<em class="kw_B">self</em>,x,y,<em class="kw_B">self</em>.taille) 
+                <em class="kw_A">for</em> y <em class="kw_A">in</em> range(<em class="kw_C">nb_colonnes</em>)
+            ] 
+            <em class="kw_A">for</em> x <em class="kw_A">in</em> range(<em class="kw_C">nb_lignes</em>) 
+        ] 
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(min(len(<em class="kw_B">self</em>.grille),<em class="kw_C">nb_lignes</em>)): 
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(min(len(<em class="kw_B">self</em>.grille[0],<em class="kw_C">nb_colonnes</em>))):
+                nouvelle_grille[x][y] = <em class="kw_B">self</em>.grille[x][y] 
+        <em class="kw_B">self</em>.grille = nouvelle_grille 
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">reset</em>(<em class="kw_B">self</em>):                            
+        <em class="kw_B">self</em>.grille = [                         
+            [   <em class="kw_B">Case_Hexa</em>(<em class="kw_B">self</em>,x,y,<em class="kw_B">self</em>.taille) 
+                <em class="kw_A">for</em> y <em class="kw_A">in</em> range(<em class="kw_B">self</em>.<em class="kw_C">nb_colonnes</em>)
+            ]                                   
+            <em class="kw_A">for</em> x <em class="kw_A">in</em> range(<em class="kw_B">self</em>.<em class="kw_C">nb_lignes</em>)      
+        ]  
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">centre_x</em>(<em class="kw_B">self</em>) -> tuple : return <em class="kw_B">self</em>.largeur / 2 
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">centre_y</em>(<em class="kw_B">self</em>) -> tuple : return <em class="kw_B">self</em>.hauteur / 2  
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">centre</em>(<em class="kw_B">self</em>) -> tuple : return ( <em class="kw_B">self</em>.<em class="kw_C">centre_x</em>, <em class="kw_B">self</em>.<em class="kw_C">centre_y</em>) 
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">taille</em>(<em class="kw_B">self</em>) -> int : return <em class="kw_B">self</em>.__taille  
+            
+    <em class="kw_B">@taille.setter</em>                              
+    <em class="kw_A">def</em> taille(<em class="kw_B">self</em>,valeur : int) :             
+        <em class="kw_B">self</em>.__taille = valeur                  
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):       
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])): 
+                <em class="kw_B">self</em>.grille[x][y].taille = valeur 
+            
+    <em class="kw_B">@property</em>   
+    <em class="kw_A">def</em> <em class="kw_C">mode</em>(<em class="kw_B">self</em>) -> int : return <em class="kw_B">self</em>.__mode 
+            
+    <em class="kw_B">@mode.setter</em>                                
+    <em class="kw_A">def</em> <em class="kw_C">mode</em>(<em class="kw_B">self</em>,valeur : int) : <em class="kw_B">self</em>.__mode = valeur 
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">angle</em>(<em class="kw_B">self</em>) -> int : return <em class="kw_B">self</em>.__angle 
+            
+    <em class="kw_B">@angle.setter</em>                               
+    <em class="kw_A">def</em> <em class="kw_C">angle</em>(<em class="kw_B">self</em>,valeur : int) :              
+        <em class="kw_B">self</em>.__angle = valeur % 360             
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):       
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):
+                <em class="kw_B">self</em>.grille[x][y].taille = valeur 
+            
+    <em class="kw_B">@property</em>                                   
+    <em class="kw_A">def</em> <em class="kw_C">centre_sur</em>(<em class="kw_B">self</em>) -> tuple : return <em class="kw_B">self</em>.__<em class="kw_C">centre_sur</em>
+            
+    <em class="kw_B">@<em class="kw_C">centre_sur</em>.setter</em>                                                                                   
+    <em class="kw_A">def</em> <em class="kw_C">centre_sur</em>(<em class="kw_B">self</em>,valeur : tuple) : <em class="kw_B">self</em>.__<em class="kw_C">centre_sur</em> = valeur 
+            
+    <em class="kw_A">def</em> <em class="kw_C">dessiner</em>(<em class="kw_B">self</em>):                                                                                  
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                                                                
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):                                                         
+                <em class="kw_B">self</em>.grille[x][y].poly = <em class="kw_B">self</em>.create_polygon(*<em class="kw_B">self</em>.grille[x][y].coords,                  
+                                                            fill = '#505050',                            
+                                                            outline = '#505050',                         
+                                                            width = 2,                                   
+                                                            state = <em class="kw_B">self</em>.__visibilite_Hexa(x,y))         
+                <em class="kw_B">self</em>.grille[x][y].lier_les_evenements() 
+            
+    <em class="kw_A">def</em> __visibilite_Hexa(<em class="kw_B">self</em>,x : int, y : int):                                                        
+        mini = min(<em class="kw_B">self</em>.<em class="kw_C">nb_lignes</em>,<em class="kw_B">self</em>.<em class="kw_C">nb_colonnes</em>) - 1                                                  
+        <em class="kw_A">if</em> <em class="kw_B">self</em>.mode == 3 <em class="kw_A">and</em> (x + y > mini) :                                                           
+            return 'hidden'                                                                              
+        <em class="kw_A">elif</em> <em class="kw_B">self</em>.mode == 4 <em class="kw_A">and</em> ((<em class="kw_B">self</em>.<em class="kw_C">nb_lignes</em> - x - 1) + (<em class="kw_B">self</em>.<em class="kw_C">nb_colonnes</em> - y - 1) > mini) :         
+            return 'hidden'                                                                              
+        <em class="kw_A">else</em>:                                                                                            
+            return 'normal' 
+            
+    <em class="kw_A">def</em> re<em class="kw_C">dessiner</em>(<em class="kw_B">self</em>):                                                                                
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                                                                
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):                                                         
+                <em class="kw_B">self</em>.coords(<em class="kw_B">self</em>.grille[x][y].poly,*<em class="kw_B">self</em>.grille[x][y].coords) 
+            
+    <em class="kw_A">def</em> clic_d(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                              
+        x = <em class="kw_B">event</em>.x                                                                                      
+        y = <em class="kw_B">event</em>.y                                                                                      
+        ref = <em class="kw_B">self</em>.find_closest(x, y)[0]                                                                 
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                                                                
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):                                                         
+                <em class="kw_A">if</em> <em class="kw_B">self</em>.grille[x][y].poly == ref :                                                       
+                    <em class="kw_B">self</em>.__clic_d_coords = (<em class="kw_B">self</em>.grille[x][y].pos_x, <em class="kw_B">self</em>.grille[x][y].pos_y)
+            
+    <em class="kw_A">def</em> declic_d(<em class="kw_B">self</em>,<em class="kw_B">event</em>): <em class="kw_B">self</em>.__clic_d_coords = None 
+            
+    <em class="kw_A">def</em> clic_g(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                              
+        x = <em class="kw_B">event</em>.x                                                                                      
+        y = <em class="kw_B">event</em>.y                                                                                      
+        ref = <em class="kw_B">self</em>.find_closest(x, y)[0]                                                                 
+        <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                                                                
+            <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):                                                         
+                <em class="kw_A">if</em> <em class="kw_B">self</em>.grille[x][y].poly == ref :                                                       
+                    <em class="kw_B">self</em>.grille[x][y].typ += 1                                                           
+                    <em class="kw_B">self</em>.__clic_g_typ = <em class="kw_B">self</em>.grille[x][y].typ 
+            
+    <em class="kw_A">def</em> declic_g(<em class="kw_B">self</em>,<em class="kw_B">event</em>): <em class="kw_B">self</em>.__clic_g_typ = - 1 
+            
+    <em class="kw_A">def</em> molette_tourne(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                      
+        <em class="kw_A">if</em> <em class="kw_B">event</em>.delta > 0 : <em class="kw_B">self</em>.taille += 5                                                            
+        <em class="kw_A">else</em> : <em class="kw_B">self</em>.taille -= 5                                                                          
+        <em class="kw_A">if</em> <em class="kw_B">self</em>.taille < 5 : <em class="kw_B">self</em>.taille = 5                                                             
+        <em class="kw_B">self</em>.re<em class="kw_C">dessiner</em>()
+            
+    <em class="kw_A">def</em> clic_m(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                              
+        x = <em class="kw_B">event</em>.x                                                                                      
+        <em class="kw_B">self</em>.__clic_m_ref = (x, <em class="kw_B">self</em>.angle) 
+            
+    <em class="kw_A">def</em> declic_m(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                            
+        <em class="kw_B">self</em>.__clic_m_ref = None 
+            
+    <em class="kw_A">def</em> souris_bouge(<em class="kw_B">self</em>,<em class="kw_B">event</em>):                                                                        
+        print(<em class="kw_B">event</em>.state)
+        pos_x = <em class="kw_B">event</em>.x                                                                                  
+        pos_y = <em class="kw_B">event</em>.y                                         
+        ref = <em class="kw_B">self</em>.find_closest(pos_x, pos_y)[0]                
+        s = <em class="kw_B">event</em>.state 
+        b1 = False      #   Clic Gauche     |   256             
+        b2 = False      #   Clic Molette    |   512             
+        b3 = False      #   Clic Droit      |   1024            
+        <em class="kw_A">if</em> s >= 1024    : b3, s = True, s - 1024                
+        <em class="kw_A">if</em> s >= 512     : b2, s = True, s - 512                 
+        <em class="kw_A">if</em> s >= 256     : b1, s = True, s - 256 
+        <em class="kw_A">if</em> b1 <em class="kw_A">and</em> <em class="kw_A">nat</em> b2 <em class="kw_A">and</em> <em class="kw_A">nat</em> b3 <em class="kw_A">and</em> <em class="kw_B">self</em>.__clic_g_typ != -1:
+            <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                   
+                <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):            
+                    <em class="kw_A">if</em> <em class="kw_B">self</em>.grille[x][y].poly == ref :          
+                        <em class="kw_B">self</em>.grille[x][y].typ = <em class="kw_B">self</em>.__clic_g_typ                                                              
+        <em class="kw_A">if</em> <em class="kw_A">nat</em> b1 <em class="kw_A">and</em> <em class="kw_A">nat</em> b2 <em class="kw_A">and</em> b3 <em class="kw_A">and</em> <em class="kw_B">self</em>.__clic_d_coords != None:                                 
+            <em class="kw_A">for</em> x <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille)):                                                         
+                <em class="kw_A">for</em> y <em class="kw_A">in</em> range(len(<em class="kw_B">self</em>.grille[0])):                                                  
+                    <em class="kw_A">if</em> <em class="kw_B">self</em>.grille[x][y].poly == ref :                                                
+                        <em class="kw_A">if</em> <em class="kw_B">self</em>.__clic_d_coords != (<em class="kw_B">self</em>.grille[x][y].pos_x, <em class="kw_B">self</em>.grille[x][y].pos_y):
+                            dif_x = <em class="kw_B">self</em>.__clic_d_coords[0] - <em class="kw_B">self</em>.grille[x][y].pos_x                 
+                            dif_y = <em class="kw_B">self</em>.__clic_d_coords[1] - <em class="kw_B">self</em>.grille[x][y].pos_y                 
+                            <em class="kw_B">self</em>.<em class="kw_C">centre_sur</em> = (<em class="kw_B">self</em>.<em class="kw_C">centre_sur</em>[0] + dif_x, <em class="kw_B">self</em>.<em class="kw_C">centre_sur</em>[1] + dif_y)
+                            <em class="kw_B">self</em>.re<em class="kw_C">dessiner</em>()                                                              
+        <em class="kw_A">if</em> <em class="kw_A">nat</em> b1 <em class="kw_A">and</em> b2 <em class="kw_A">and</em> <em class="kw_A">nat</em> b3 <em class="kw_A">and</em> <em class="kw_B">self</em>.__clic_m_ref != None:                                    
+            dif = pos_x - <em class="kw_B">self</em>.__clic_m_ref[0]                                                        
+            <em class="kw_B">self</em>.angle = <em class="kw_B">self</em>.__clic_m_ref[1] - dif / 2                                               
+            <em class="kw_B">self</em>.re<em class="kw_C">dessiner</em>()
+            
+<em class="kw_A">class</em> <em class="kw_B">Case_Hexa</em>():
+    """Une Case de la grille
+    * parent => <em class="kw_B">Can_Hexa</em>
+    * pos_x  => N° de la ligne de la case
+    * pos_y  => N° de la colonne de la case"""  
+            
+    <em class="kw_A">def</em> <em class="kw_C">__init__</em>(                                                                                      
+        <em class="kw_B">self</em>,                                                                                          
+        parent : <em class="kw_B">Can_Hexa</em>,                                                                             
+        pos_x : int = 0,                                                                               
+        pos_y : int = 0                                                                                
+    ) -> None: 
+        <em class="kw_B">self</em>.parent = parent 
+        <em class="kw_B">self</em>.pos_x = pos_x 
+        <em class="kw_B">self</em>.pos_y = pos_y  
+        <em class="kw_B">self</em>.poly = None 
+        <em class="kw_B">self</em>.__typ = 0 
+            
+    <em class="kw_B">@property</em>                                                                                               
+    <em class="kw_A">def</em> typ(<em class="kw_B">self</em>): return <em class="kw_B">self</em>.__typ   
+            
+    <em class="kw_B">@typ.setter</em>                                                                                             
+    <em class="kw_A">def</em> typ(<em class="kw_B">self</em>,value):                                                                                    
+        <em class="kw_B">self</em>.__typ = value % 3                                                                              
+        <em class="kw_A">if</em> <em class="kw_B">self</em>.typ == 0    : <em class="kw_B">self</em>.parent.itemconfig(<em class="kw_B">self</em>.poly, fill = "#505050")                           
+        <em class="kw_A">elif</em> <em class="kw_B">self</em>.typ == 1  : <em class="kw_B">self</em>.parent.itemconfig(<em class="kw_B">self</em>.poly, fill = "#000000")                           
+        <em class="kw_A">else</em>                : <em class="kw_B">self</em>.parent.itemconfig(<em class="kw_B">self</em>.poly, fill = "#FFFFFF")                           
+            
+    <em class="kw_B">@property</em>                                                                                               
+    <em class="kw_A">def</em> centre(<em class="kw_B">self</em>):                                                                                       
+        vec_x = (   cos(radians(<em class="kw_B">self</em>.parent.angle)) * <em class="kw_B">self</em>.parent.taille,                                   
+                    sin(radians(<em class="kw_B">self</em>.parent.angle)) * <em class="kw_B">self</em>.parent.taille    )                               
+        vec_y = (   sin(radians(<em class="kw_B">self</em>.parent.angle)) * <em class="kw_B">self</em>.parent.taille,                                   
+                  - cos(radians(<em class="kw_B">self</em>.parent.angle)) * <em class="kw_B">self</em>.parent.taille    )                               
+        coef_x = cos(radians(30))                                                                           
+        coef_y = cos(radians(30))                                                                           
+        add_x = ( 0, 0 )                                                                                    
+        add_y = ( 0, 0 )                                                                                    
+        x = <em class="kw_B">self</em>.pos_x - <em class="kw_B">self</em>.parent.<em class="kw_C">centre_sur</em>[0]                                                          
+        y = <em class="kw_B">self</em>.pos_y - <em class="kw_B">self</em>.parent.<em class="kw_C">centre_sur</em>[1]                                                          
+        <em class="kw_A">if</em> <em class="kw_B">self</em>.parent.mode == 0 :                                                                          
+            coef_y = 0.75                                                                                   
+            <em class="kw_A">if</em> <em class="kw_B">self</em>.pos_x % 2 == 0 :                                                                        
+                add_x =  ( coef_x * 0.5 * vec_x[0], coef_x * 0.5 * vec_x[1] )                               
+            <em class="kw_A">if</em> <em class="kw_B">self</em>.parent.<em class="kw_C">centre_sur</em>[0] % 2 != 0 :                                                         
+                add_x =  ( add_x[0] - coef_x * 0.5 * vec_x[0], add_x[1] - coef_x * 0.5 * vec_x[1] )         
+        <em class="kw_A">elif</em> <em class="kw_B">self</em>.parent.mode == 1 :                                                                        
+            coef_x = 0.75                                                                                   
+            <em class="kw_A">if</em> <em class="kw_B">self</em>.pos_y % 2 == 0 :                                                                        
+                add_y = ( coef_y * 0.5 * vec_y[0], coef_y * 0.5 * vec_y[1] )                                
+            <em class="kw_A">if</em> <em class="kw_B">self</em>.parent.<em class="kw_C">centre_sur</em>[1] % 2 != 0 :                                                         
+                add_y =  ( add_y[0] - coef_y * 0.5 * vec_y[0], add_y[1] - coef_y * 0.5 * vec_y[1] )         
+        <em class="kw_A">else</em> :                                                                                              
+            coef_y = 0.75                                                                                   
+            add_x = ( x * coef_x * 0.5 * vec_x[0], x * coef_x * 0.5 * vec_x[1] )                            
+        ref_x = y * coef_x * vec_x[0] + x * (coef_y * vec_y[0]) + <em class="kw_B">self</em>.parent.<em class="kw_C">centre_x</em> + add_x[0] + add_y[0] 
+        ref_y = y * coef_x * vec_x[1] + x * (coef_y * vec_y[1]) + <em class="kw_B">self</em>.parent.<em class="kw_C">centre_y</em> + add_x[1] + add_y[1]
+        return  ref_x, ref_y   
+            
+    <em class="kw_B">@property</em>                                                                                   
+    <em class="kw_A">def</em> coords(<em class="kw_B">self</em>):                                                                                 
+        angle = (<em class="kw_B">self</em>.parent.angle+30) % 60 <em class="kw_A">if</em> <em class="kw_B">self</em>.parent.mode != 1 <em class="kw_A">else</em> (<em class="kw_B">self</em>.parent.angle) % 60    
+        coord_x , coord_y = <em class="kw_B">self</em>.centre                                                                
+        return [                                                                                     
+            coord_x + cos(radians(angle))     * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle))     * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_x + cos(radians(angle+60))  * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle+60))  * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_x + cos(radians(angle+120)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle+120)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_x + cos(radians(angle+180)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle+180)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_x + cos(radians(angle+240)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle+240)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_x + cos(radians(angle+300)) * <em class="kw_B">self</em>.parent.taille / 2 ,
+            coord_y + sin(radians(angle+300)) * <em class="kw_B">self</em>.parent.taille / 2
+        ]
+            
+    <em class="kw_A">def</em> lier_les_evenements(<em class="kw_B">self</em>) -> None : 
+        <em class="kw_B">self</em>.parent.tag_bind(<em class="kw_B">self</em>.poly,'&lt;Enter&gt;', <em class="kw_B">self</em>.selectionner) 
+        <em class="kw_B">self</em>.parent.tag_bind(<em class="kw_B">self</em>.poly,'&lt;Leave&gt;', <em class="kw_B">self</em>.deselectionner)
+            
+    <em class="kw_A">def</em> selectionner(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.parent.itemconfig(<em class="kw_B">self</em>.poly,outline = '#FF0000')
+        <em class="kw_B">self</em>.parent.tag_raise(<em class="kw_B">self</em>.poly)
+            
+    <em class="kw_A">def</em> deselectionner(<em class="kw_B">self</em>,<em class="kw_B">event</em>):
+        <em class="kw_B">self</em>.parent.itemconfig(<em class="kw_B">self</em>.poly,outline = '#505050') 
+
+
+
+
+
+<em class="kw_A">if</em> __name__ == "__main__":
+    run = <em class="kw_B">My_Maps</em>()
+    run.mainloop()
+        </code></pre>
+    </div>
+
+    
+    <div class="Fondu_sup"></div>
+    <div class="Fondu_inf"></div> 
+    <!-- En Tete et menus  -->
+    <div class="Bandeau_sup">
+        <div class="Part_photo">
+            <img src="Images/Band_sup/Ma_photo.png" alt="La photo de Johann BLANC" id="Ma_photo"/>
+        </div>
+        <div class="Part_nom">
+            <h1>Johann Blanc</h1>
+        </div>
+        <div class="Part_train"></div>
+        <div class="Part_loco"></div>
+        <div class="Part_fondu"></div>
+        
+    </div>
+    <div class="Menu_prime">
+        <ul>
+            <li class="MP_item">
+                <h2>Qui-suis-je ?</h2>
+                <ul>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C"><a href="index.html">Ma carte de visite</a></div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C"><a href="CV.html">Mon CV (Visuel)</a></div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C"><a href="documents/CV.docx">Mon CV (Télécharger)</a></div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_F_Grid">
+                            <div class="MS_F_W"></div>
+                            <div class="MS_F_C"></div>
+                            <div class="MS_F_E"></div>
+                        </div>
+                    </li>
+                </ul>
+                <!--
+                <ul>
+                    <li class="MS_item"><a href="#">En bref</a></li>
+                    <li class="MS_item"><a href="CV.html"><h3>Mon CV (Visuel)</h3></a></li>
+                    <li class="MS_item"><a href="documents/CV.docx">Mon CV (Télécharger)</a></li>
+                    <li class="MS_item"><a href="carte_visite.html">Ma carte de visite</a></li>
+                    <li class="MS_item">
+                        <div class="MS_F_Grid">
+                            <div class="MS_F_W"></div>
+                            <div class="MS_F_C"></div>
+                            <div class="MS_F_E"></div>
+                        </div>
+                    </li>
+                </ul>
+                -->
+            </li>
+            <li class="MP_item">
+                <h2>Compétences informatiques</h2>
+                <ul>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C">Excel</div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C">Word</div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_F_Grid">
+                            <div class="MS_F_W"></div>
+                            <div class="MS_F_C"></div>
+                            <div class="MS_F_E"></div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="MP_item">
+                <h2>Formation Up to Dev</h2>
+                <ul>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C"><a href="Resultat_App_AssessFirst.html"><h3>Assess First</h3></a></div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_I_Grid">
+                            <div class="MS_I_W"></div>
+                            <div class="MS_I_C"><a href="Candidature.html"><h3>Dossier de candidature</h3></a></div>
+                            <div class="MS_I_E"></div>
+                        </div>
+                    </li>
+                    <li class="MS_item">
+                        <div class="MS_F_Grid">
+                            <div class="MS_F_W"></div>
+                            <div class="MS_F_C"></div>
+                            <div class="MS_F_E"></div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        
+        </ul>
+    </div>
+</body>
