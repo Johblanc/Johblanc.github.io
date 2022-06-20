@@ -1,0 +1,366 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    background-color: #003
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font: italic normal bold 16px cursive;
+    color: #b1ffff;
+}
+/*--------------------BANDEAU SUPERIEUR-----------------*/
+.Bandeau_sup {
+    
+    display: grid;
+    grid-template-rows: 100px 50px;
+    grid-template-columns: 150px calc(100% - 415px) 265px;
+    position: fixed;
+    height: 150px;
+    width: 100%;
+    background-color: #000032;
+    background-position: center;
+}
+.Part_photo {
+    grid-column: 1 ;
+    grid-row: 1 / 3;
+    background-image: url("Images/Band_sup/BG_Photo.png");
+    background-size: contain;
+}
+
+.Part_photo>img {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    border-radius: 50%;
+}
+
+h1 {
+    position: absolute;
+    left: 150px;
+    top:20px;
+    width: calc(100% - 150px);
+    font: italic normal bold 52px cursive;
+    color: #AAF;
+    text-align: center;
+}
+
+
+.Part_loco {
+    grid-column: 3 ;
+    grid-row: 2;
+    background-image: url("Images/Band_sup/BG_Loco.png");
+    background-size: contain;
+    background-position: right;
+}
+.Part_train {
+    grid-column: 2 ;
+    grid-row: 2;
+    background-image: url("Images/Band_sup/BG_Voiture.png");
+    background-size: auto 50px;
+    background-position: right;
+}
+
+.Part_fondu{
+    grid-column: 2 ;
+    grid-row: 2;
+    background-image: url("Images/Band_sup/BG_Fondu.png");
+    background-size: auto 50px;
+    background-position: left;
+    background-repeat: no-repeat;
+}
+
+/*--------------------MENU PRINCIPAL-----------------*/
+.Menu_prime {
+    position: fixed;
+    overflow: auto none; 
+    top: 150px;
+    height: 50px;
+    width: 100%;
+    background-image: url("Images/Menu_Prime/BG_H2_Barre.png");
+    background-size: auto 50px;
+}
+.Menu_prime>ul {
+    padding: 0;
+    margin: 0;
+    list-style: None;
+    display: inline-block;
+}
+
+.MP_item {
+    padding: 0;
+    margin: 0;
+    position: static;
+    height: 50px;
+    display: inline-block;
+}
+
+
+h2 {
+    width: max-content;
+    font: italic normal bold 20px cursive;
+    color: #b1ffff;
+    border: solid;
+    height: 30px;
+    border-width: 10px 25px 10px 25px;
+    border-image: url("Images/Menu_Prime/BD_H2_Normal.png") 20 50 20 50;
+    background-color: #000032;
+}
+
+h2:hover {
+    color: #000032;
+    border-image: url("Images/Menu_Prime/BD_H2_Hover.png") 20 50 20 50;
+    background-color: #FFF;
+}
+
+
+
+h2~ul {
+    position: fixed;
+    width: 300px;
+    top:200px;
+    text-align: left;
+    overflow: auto; 
+    background-position: center;
+    visibility : hidden;
+    
+
+}
+
+
+h2:hover~ul {
+    visibility : visible;
+}
+
+h2~ul:hover {
+    visibility : visible;
+}
+
+/*--------------------MENU SECONDAIRE-----------------*/
+.MP_item>ul {
+    list-style: None;
+}
+
+.MS_item {
+    padding: 0;
+    margin: 0;
+}
+    
+
+
+
+.MS_I_Grid {
+    display: grid;
+    grid-template-rows: 30px;
+    grid-template-columns: 25px calc(100% - 55px) 30px;
+}
+    
+.MS_I_W {
+    grid-column: 1 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_W_Normal.png");
+    background-size: 25px 30px;
+    display: inline-block;
+}
+
+.MS_I_Grid:hover>.MS_I_W {
+    background-image: url("Images/Sous_Menu/BG_H3_W_Hover.png");
+}
+
+.MS_I_C {
+    grid-column: 2 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_C_Normal.png");
+    background-size: auto 30px;
+    display: inline-block;
+}
+
+.MS_I_E {
+    grid-column: 3 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_E_Normal.png");
+    background-size: 30px 30px;
+    display: inline-block;
+}
+
+.MS_F_Grid {
+    display: grid;
+    grid-template-rows: 25px;
+    grid-template-columns: 25px calc(100% - 55px) 30px;
+}
+    
+.MS_F_W {
+    grid-column: 1 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_SW_Normal.png");
+    background-size: 25px 25px;
+    display: inline-block;
+}
+
+
+.MS_F_C {
+    grid-column: 2 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_S_Normal.png");
+    background-size: auto 25px;
+    display: inline-block;
+}
+
+.MS_F_E {
+    grid-column: 3 ;
+    grid-row: 1;
+    background-image: url("Images/Sous_Menu/BG_H3_SE_Normal.png");
+    background-size: 30px 25px;
+    display: inline-block;
+}
+/*--------------------CARTE DE VISITE-----------------*/
+
+h4 {
+    font: italic normal bold 24px cursive;
+    width: max-content;
+    border: solid;
+    height: 50px;
+    border-width: 0px 20px 0px 35px;
+    border-image: url("Images/Titre/BD_H4.png") 0 40 0 70;
+    background-image: url("Images/Titre/BG_H4_C_Normal.png");
+    background-size: auto 50px;
+    margin: 5px
+}
+
+h5 {
+    font: italic normal bold 20px cursive;
+    padding : 20px 0 0 0;
+}
+
+.Contenu {
+    position: fixed;
+    height: calc(100% - 200px);
+    width: 100%;
+    top:200px;
+    overflow: auto; 
+}
+
+.Fondu_sup {
+    position: fixed;
+    overflow: auto none; 
+    top: 200px;
+    height: 50px;
+    width: 100%;
+    background-image: url("Images/Fondu_Sup.png");
+    background-size: auto 50px;
+}
+
+.Fondu_inf {
+    position: fixed;
+    overflow: auto none; 
+    top: calc(100% - 50px);
+    height: 50px;
+    width: 100%;
+    background-image: url("Images/Fondu_Inf.png");
+    background-size: auto 50px;
+}
+.Carte_visite, .Candiature {
+    position: fixed;
+    width: 100%;
+    top:200px;
+    overflow: auto; 
+    scrollbar-width: none;
+    height: calc(100% - 300px);
+    padding: 50px 0 50px 0 ;
+}
+.Colo_gauche {
+    position: fixed;
+    height: calc(100% - 300px);
+    width: 300px;
+    top:200px;
+    overflow: hidden scroll; 
+    scrollbar-width: none;
+    padding: 50px 0 50px 0 ;
+}
+.Separation {
+    position: fixed;
+    height: calc(100% - 300px);
+    width: 35px;
+    top:200px;
+    Left:300px;
+    background-image: url("Images/Separation_C.png");
+    background-size: 35px auto;
+    padding: 50px 0 50px 0 ;
+}
+
+.Colo_droite {
+    position: fixed;
+    height: calc(100% - 300px);
+    width: calc(100% - 350px);
+    top:200px;
+    Left:350px;
+    overflow: hidden scroll; 
+    scrollbar-width: none;
+    padding: 50px 0 50px 0 ;
+}
+
+.AAF {
+    overflow: hidden scroll; 
+    scrollbar-width: none;
+    padding: 50px 0 50px 0 ;
+}
+
+img:not(#Ma_photo){
+    border: solid 21px;
+    border-image: url("Images/BG_Img/BD_Img.png") 42;
+    background-image: url("Images/BG_Img/BG_img_C.png");
+    margin: 5px
+}
+
+img.grande{ width: 1000px; }
+img.petite{ width: 200px; }
+
+
+
+
+p {
+    font: italic normal bold 16px cursive;
+    padding : 10px 30px 10px 30px;
+    margin: 0; 
+    text-align: justify;
+}
+p::first-letter {
+    padding : 0 0 0 20px;
+    margin: 0;
+}
+ul {
+    list-style: inside url("Images/Puce.png");
+    padding : 0 0 0 40px;
+    margin: 0; 
+}
+li {
+    font: italic normal bold 16px cursive;
+    padding : 10px 30px 0 0;
+    margin: 0; 
+    text-align: justify;
+}
+
+li::first-letter {
+    padding : 0 0 0 10px;
+    margin: 0;
+}
+
+code {
+    color:#FFFFFF;
+    font: normal 16px courier;
+}
+
+em.kw_A {
+    color: #50FF50;
+    font: normal 16px courier;
+}
+em.kw_B {
+    color: #CCCC50;
+    font: normal 16px courier;
+}
+em.kw_C {
+    color: #FF9090;
+    font: normal 16px courier;
+}
