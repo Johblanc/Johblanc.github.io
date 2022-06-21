@@ -262,24 +262,55 @@ h5 {
     background-image: url("Images/Fondu_Inf.png");
     background-size: auto 50px;
 }
-.Carte_visite, .Candiature {
+
+.Contenu {
     position: fixed;
     width: 100%;
     top:200px;
-    overflow: auto; 
-    scrollbar-width: none;
     height: calc(100% - 300px);
     padding: 50px 0 50px 0 ;
+    overflow: hidden scroll; 
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+.Contenu::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
 .Colo_gauche {
     position: fixed;
     height: calc(100% - 300px);
     width: 300px;
     top:200px;
+    padding: 50px 0 50px 20px ;
     overflow: hidden scroll; 
-    scrollbar-width: none;
-    padding: 50px 0 50px 0 ;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+.Colo_gauche::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+
+
+.Colo_droite {
+    position: fixed;
+    height: calc(100% - 300px);
+    width: calc(100% - 350px);
+    top:200px;
+    Left:350px;
+    padding: 50px 0 50px 0 ;
+    overflow: hidden scroll; 
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.Colo_droite::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
 .Separation {
     position: fixed;
     height: calc(100% - 300px);
@@ -291,33 +322,25 @@ h5 {
     padding: 50px 0 50px 0 ;
 }
 
-.Colo_droite {
-    position: fixed;
-    height: calc(100% - 300px);
-    width: calc(100% - 350px);
-    top:200px;
-    Left:350px;
-    overflow: hidden scroll; 
-    scrollbar-width: none;
-    padding: 50px 0 50px 0 ;
-}
-
-.AAF {
-    overflow: hidden scroll; 
-    scrollbar-width: none;
-    padding: 50px 0 50px 0 ;
-}
-
 img:not(#Ma_photo){
     border: solid 21px;
     border-image: url("Images/BG_Img/BD_Img.png") 42;
     background-image: url("Images/BG_Img/BG_img_C.png");
-    margin: 5px
 }
 
-img.grande{ width: 1000px; }
-img.petite{ width: 200px; }
-
+img.grande{
+    width: 1000px; 
+    margin: 5px 10% 5px 10%;      
+}
+img.petite{ 
+    width: 200px;
+    margin: 5px 1% 5px 1%;
+}
+img.Img_Py{ 
+    width:500px;
+    margin: 5px 10% 5px 10%;   
+    
+}
 
 
 
@@ -341,6 +364,11 @@ ul {
 li::first-letter {
     padding : 0 0 0 10px;
     margin: 0;
+}
+
+
+pre {
+    margin : 5px 10% 5px 10%;
 }
 
 code {
